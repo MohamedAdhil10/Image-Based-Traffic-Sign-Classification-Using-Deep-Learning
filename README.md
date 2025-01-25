@@ -32,7 +32,7 @@ Traffic signs play a crucial role in ensuring road safety. Automating traffic si
 ├── Test.csv                 # Testing dataset (image paths and labels)
 ├── traffic_sign_model_finetuned.h5 # Trained model saved for deployment
 ├── app.py                   # Streamlit app for predictions
-├── model_training.py        # Main script for training and fine-tuning the model
+├── traffic_sign.py        # Main script for training and fine-tuning the model
 ├── README.md                # Project documentation
 ```
 
