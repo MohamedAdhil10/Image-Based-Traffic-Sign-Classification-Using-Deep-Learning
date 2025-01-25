@@ -1,80 +1,137 @@
-# Image-Based Traffic Sign Classification Using Deep Learning
+# 🚦 Image-Based Traffic Sign Classification Using Deep Learning
 
-## **Overview**
-This project implements a deep learning model for traffic sign classification using the German Traffic Sign Recognition Benchmark (GTSRB) dataset. The goal is to build a robust model that can classify traffic signs into 43 categories, which can assist autonomous vehicles, traffic monitoring systems, and driver assistance systems in recognizing and interpreting traffic signs.
-
----
-
-## **Project Components**
-
-### **1. Data Loading and Preprocessing**
-- The project uses `Train.csv` and `Test.csv` files to load the image paths and labels.
-- Preprocessing steps include:
-  - Resizing all images to a uniform size of `64x64` pixels.
-  - Normalizing pixel values to the range `[0, 1]` for faster training convergence.
-  - Splitting the training data into 80% training and 20% validation sets.
-  - Converting class labels into one-hot encoded format using TensorFlow's `to_categorical`.
+This project implements a deep learning model for **traffic sign classification** using the **German Traffic Sign Recognition Benchmark (GTSRB)** dataset. The system leverages **transfer learning** with a pre-trained **MobileNetV2** model, fine-tuned to classify 43 different traffic sign categories. The trained model can be deployed to predict traffic signs from new images through an interactive **Streamlit** application.
 
 ---
 
-### **2. Model Building**
-- A Convolutional Neural Network (CNN) was built using TensorFlow and Keras.
-- Model architecture includes:
-  - **2 Convolutional Layers**: Extract spatial features.
-  - **MaxPooling Layers**: Reduce dimensionality while retaining important information.
-  - **Dropout Layers**: Prevent overfitting by randomly dropping connections.
-  - **Dense Layers**: Perform final classification using the `softmax` activation function.
+## 📀 Project Overview
+
+Traffic signs play a crucial role in ensuring road safety. Automating traffic sign recognition enhances the functionality of autonomous vehicles and driver-assistance systems. This project builds an end-to-end pipeline that:
+1. Preprocesses and augments the GTSRB dataset.
+2. Trains a traffic sign classification model using **MobileNetV2**.
+3. Evaluates the model on unseen data.
+4. Deploys the trained model using a **Streamlit** web application for real-time traffic sign predictions.
 
 ---
 
-### **3. Model Training**
-- The model is trained for **15 epochs** with a batch size of **32**.
-- The training process uses:
-  - **Categorical Crossentropy Loss**: Suitable for multi-class classification.
-  - **Adam Optimizer**: Adaptive learning rate optimization.
-  - **Accuracy Metric**: Tracks training and validation accuracy during training.
+## 🚀 Key Features
+
+- **Transfer Learning**: MobileNetV2 as the feature extractor for efficiency and accuracy.
+- **Data Augmentation**: Enhances robustness with rotations, brightness changes, and shifts.
+- **Model Fine-Tuning**: Further trains deeper layers of MobileNetV2 for traffic sign-specific features.
+- **Metrics Visualization**: Tracks accuracy and loss during training with clear visualizations.
+- **Streamlit Deployment**: An interactive web app for traffic sign classification.
 
 ---
 
-### **4. Evaluation**
-- The trained model is evaluated on the test dataset using the following metrics:
-  - **Test Accuracy**: Percentage of correctly classified test samples.
-  - **Test Loss**: Error on the test dataset.
-- Additionally:
-  - **Classification Report**: Includes precision, recall, F1-score, and support for each class.
-  - **Confusion Matrix**: Displays misclassification patterns across all classes.
+## 📂 Project Structure
+
+```
+.
+├── Train.csv                # Training dataset (image paths and labels)
+├── Test.csv                 # Testing dataset (image paths and labels)
+├── traffic_sign_model_finetuned.h5 # Trained model saved for deployment
+├── app.py                   # Streamlit app for predictions
+├── model_training.py        # Main script for training and fine-tuning the model
+├── README.md                # Project documentation
+```
 
 ---
 
-### **5. Visualization**
-- **Accuracy and Loss Plots**:
-  - Visualize training and validation accuracy and loss over the epochs.
-- **Confusion Matrix Heatmap**:
-  - Uses `seaborn` to plot a heatmap for the confusion matrix, highlighting areas of misclassification.
+## 📊 Dataset
+
+The **German Traffic Sign Recognition Benchmark (GTSRB)** dataset is used. It contains:
+- **50,000+ images** of traffic signs.
+- **43 classes**, including stop signs, speed limits, pedestrian crossings, and more.
 
 ---
 
-### **6. Model Saving**
-- The trained model is saved as `traffic_sign_model.h5` for reuse.
+## ⚙️ Setup Instructions
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/traffic-sign-recognition.git
+cd traffic-sign-recognition
+```
+
+### 2. Download the Dataset
+- Download the **GTSRB dataset** from [Kaggle](https://www.kaggle.com/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign).
+- Place `Train.csv` and `Test.csv` in the project directory.
+
+### 3. Train the Model
+Run the `model_training.py` script to train the model:
+```bash
+python model_training.py
+```
+- The trained model will be saved as `traffic_sign_model_finetuned.h5`.
+
+### 4. Launch the Streamlit App
+Use the `app.py` script to deploy the Streamlit web app:
+```bash
+streamlit run app.py
+```
+- Upload an image of a traffic sign, and the app will classify it.
 
 ---
 
-## **Project Deliverables**
-1. **Code Implementation**:
-   - All functionality is implemented in the Jupyter Notebook `Image Based - DL.ipynb`.
-2. **Trained Model**:
-   - Saved as `traffic_sign_model.h5`.
-3. **Evaluation Metrics**:
-   - Accuracy and loss plots.
-   - Classification report and confusion matrix.
+## 📚 Code Explanation
+
+### **1. Model Training**
+- **Transfer Learning**: MobileNetV2 is used as a pre-trained base model.
+- **Custom Layers**: Added layers for traffic sign classification:
+  - `GlobalAveragePooling2D`: Reduces features into a compact vector.
+  - `Dense`: Fully connected layers to learn traffic sign-specific patterns.
+  - `Dropout`: Prevents overfitting.
+  - `Softmax`: Outputs probabilities for 43 classes.
+- **Optimization**: Adam optimizer with learning rate scheduling.
+
+### **2. Data Augmentation**
+- Applied real-time augmentation:
+  - Rotation (±15°)
+  - Brightness changes (80%-120%)
+  - Shifts (10% horizontally and vertically)
+  - Zooming (10%)
+
+### **3. Evaluation**
+- Accuracy, loss, precision, recall, and F1-score metrics.
+- Confusion matrix for detailed class-wise performance.
 
 ---
 
+## 🎯 Results
+
+- **Validation Accuracy**: Achieved >95% accuracy during validation.
+- **Test Accuracy**: Model generalizes well with high test accuracy.
+- **Confusion Matrix**: Visualized model performance for all 43 traffic sign classes.
+
+---
+
+## 🖥️ Streamlit Web App
+
+The Streamlit app allows users to:
+1. Upload an image of a traffic sign.
+2. View the predicted traffic sign class and confidence score.
+
+---
+
+## 📋 Requirements
+
+- Python 3.8 or higher
+- TensorFlow 2.10 or higher
+- Pandas
+- NumPy
+- Matplotlib
+- Seaborn
+- Streamlit
+- Pillow
 
 
-## **Acknowledgments**
-- Dataset: [GTSRB (German Traffic Sign Recognition Benchmark)](https://www.kaggle.com/datasets/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign)
-- Tools: TensorFlow, Keras, Pandas, NumPy, Matplotlib, Seaborn
+---
 
-## **Author**
-Mohamed Adhil
+## 📧 Contact
+
+For any questions or suggestions, please reach out:
+- **Email**: adhilm9991@gmail.com
+- **GitHub**:https://github.com/MohamedAdhil10
+
+---
