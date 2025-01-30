@@ -34,16 +34,16 @@ train_datagen = ImageDataGenerator(
     rotation_range=30,
     width_shift_range=0.3,
     height_shift_range=0.3,
-    brightness_range=[0.6, 1.4],  # More brightness variation
+    brightness_range=[0.6, 1.4],  
     zoom_range=0.3,
     shear_range=0.2,
     horizontal_flip=False,
     fill_mode='nearest',
-    rescale=1.0 / 255.0,  # Normalization
+    rescale=1.0 / 255.0,  
     validation_split=0.2
 )
 
-test_datagen = ImageDataGenerator(rescale=1.0 / 255.0)  # Normalize test images
+test_datagen = ImageDataGenerator(rescale=1.0 / 255.0) 
 
 # Training and Validation Generators
 train_generator = train_datagen.flow_from_dataframe(
@@ -87,7 +87,7 @@ class_weights = dict(enumerate(class_weights))
 
 # **Base Model (MobileNetV2)**
 base_model = MobileNetV2(weights='imagenet', include_top=False, input_shape=(IMG_SIZE[0], IMG_SIZE[1], 3))
-base_model.trainable = False  # Freeze initially
+base_model.trainable = False  
 
 # **Custom Model Architecture**
 model = Sequential([
@@ -121,7 +121,7 @@ history_initial = model.fit(
 )
 
 # **Fine-Tuning**
-for layer in base_model.layers[-50:]:  # Unfreeze last 50 layers
+for layer in base_model.layers[-50:]:  
     layer.trainable = True
 
 # Recompile with lower learning rate
